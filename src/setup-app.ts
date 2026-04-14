@@ -10,7 +10,7 @@ export const setupApp = (app: Express) => {
   });
 
   // Подключаем роутеры
-  app.use('/hometask_01/api/videos', videosRouter);
+  app.use('/videos', videosRouter);
   app.use('/testing', testingRouter);
 
   return app;

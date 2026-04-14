@@ -11,7 +11,7 @@ import {Video} from "../types/video";
 export const videosRouter = Router({});
 
 videosRouter
-  .get('', (_req, res: Response) => {
+  .get('/', (_req, res: Response) => {
     res.status(HttpStatus.Ok_200).send(db.mockVideos);
   })
 
@@ -24,7 +24,7 @@ videosRouter
     res.status(HttpStatus.Ok_200).json(foundVideo);
   })
 
-  .post('', (req: Request, res: Response) => {
+  .post('/', (req: Request, res: Response) => {
     const errors = createVideoInputDtoValidation(req.body);
 
     if(errors.length > 0) {

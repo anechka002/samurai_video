@@ -13,7 +13,7 @@ const setupApp = (app) => {
         res.status(200).send('hello world!!!');
     });
     // Подключаем роутеры
-    app.use('/hometask_01/api/videos', video_router_1.videosRouter);
+    app.use('/videos', video_router_1.videosRouter);
     app.use('/testing', testing_router_1.testingRouter);
     return app;
 };

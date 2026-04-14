@@ -8,7 +8,7 @@ const videoValidation_1 = require("../validation/videoValidation");
 const error_utils_1 = require("../../core/utils/error.utils");
 exports.videosRouter = (0, express_1.Router)({});
 exports.videosRouter
-    .get('', (_req, res) => {
+    .get('/', (_req, res) => {
     res.status(http_statuses_1.HttpStatus.Ok_200).send(in_memory_db_1.db.mockVideos);
 })
     .get('/:id', (req, res) => {
@@ -19,7 +19,7 @@ exports.videosRouter
     }
     res.status(http_statuses_1.HttpStatus.Ok_200).json(foundVideo);
 })
-    .post('', (req, res) => {
+    .post('/', (req, res) => {
     var _a;
     const errors = (0, videoValidation_1.createVideoInputDtoValidation)(req.body);
     if (errors.length > 0) {

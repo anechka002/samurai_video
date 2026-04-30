@@ -2,14 +2,14 @@ import request from 'supertest';
 import express from 'express';
 import { setupApp } from '../src/setup-app';
 import { HttpStatus } from '../src/core/types/http-statuses';
-import { VideoInputDto } from '../src/videos/dto/video.input-dto';
+import { CreateVideoDto } from '../src/videos/dto/create-video-dto';
 import { availableResolutionsType } from '../src/videos/types/video';
 
 describe('Video API body validation check', () => {
   const app = express();
   setupApp(app);
 
-  const correctCreateVideoData: VideoInputDto = {
+  const correctCreateVideoData: CreateVideoDto = {
     title: 'Feodor',
     author: 'feodor',
     availableResolutions: [availableResolutionsType.P240],

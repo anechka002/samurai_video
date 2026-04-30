@@ -1,6 +1,6 @@
 import {availableResolutionsType} from "../types/video";
 
-export type VideoInputDto = {
+export type CreateVideoDto = {
   title: string;
   author: string;
   availableResolutions: availableResolutionsType[];

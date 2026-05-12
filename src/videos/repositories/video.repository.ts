@@ -2,6 +2,7 @@ import {Video} from "../types/video";
 import {ObjectId, WithId} from "mongodb";
 import {videoCollection} from "../../db/mongo.db";
 import {CreateVideoDto} from "../dto/create-video-dto";
+import {VideoQueryInput} from "../routers/input/video-query.input";
 
 export const videoRepository = {
   async findAll(title: string | null | undefined): Promise<WithId<Video>[]> {
@@ -10,6 +11,28 @@ export const videoRepository = {
     } else {
       return videoCollection.find({}).toArray();
     }
+  },
+
+  async findMany(queryDto: VideoQueryInput): Promise<{items: WithId<Video>[], totalCount: number}> {
+    const { pageSize, pageNumber, sortBy, sortDirection} = queryDto;
+
+    const filter = {}
+    const skip = (pageNumber - 1) * pageSize;
+    const sort = {
+      [sortBy]: sortDirection,
+      ...(sortBy !== 'createdAt' ? { createdAt: sortDirection } : {}),
+    }
+
+    const items = await videoCollection
+      .find(filter)
+      .sort(sort)
+      .skip(skip)
+      .limit(pageSize)
+      .toArray();
+
+    const totalCount = await videoCollection.countDocuments(filter)
+
+    return {items, totalCount}
   },
 
   async findOne(id: string): Promise<WithId<Video> | null> {

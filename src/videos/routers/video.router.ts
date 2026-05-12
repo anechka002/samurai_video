@@ -1,23 +1,22 @@
 import {Response, Request, Router} from "express";
 import {HttpStatus} from "../../core/types/http-statuses";
 import {videoInputDtoValidation} from "../validation/videoValidation";
-import {createErrorMessage} from "../../core/utils/error.utils";
 import {Video} from "../types/video";
-import {videoCollection} from "../../db/mongo.db";
 import {videoRepository} from "../repositories/video.repository";
 import {mapToVideoViewModel} from "./mappers/map-to-video-view-model.utils";
 import {
   inputValidationResultMiddleware
 } from "../../core/middlewares/validation/input-validation-result.middleware";
+import {getVideoListHandler} from "../handler/get-video-list.nadler";
+import {
+  paginationAndSortingValidation
+} from "../../core/middlewares/validation/query-pagination-sorting.validation-middleware";
+import {VideoSortField} from "./input/video-sort-field";
 
 export const videosRouter = Router({});
 
 videosRouter
-  .get('/', async (req: Request<{ title: string }>, res: Response) => {
-    const title = req.query.title as string;
-    const promise = await videoRepository.findAll(title)
-    res.status(HttpStatus.Ok_200).send(promise);
-  })
+  .get('/', paginationAndSortingValidation(VideoSortField), inputValidationResultMiddleware, getVideoListHandler)
 
   .get('/:id', inputValidationResultMiddleware, async (req: Request<{ id: string }>, res: Response) => {
     const foundVideo = await videoRepository.findOne(req.params.id)
